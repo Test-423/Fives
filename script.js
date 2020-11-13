@@ -66,7 +66,7 @@ controller_render();
 function menu_render() {
    let menu = document.createElement("div");
    menu.className = "menu";
-   document.body.append(menu);
+   document.querySelector(".game").append(menu);
    menu_buttons()
 }
 menu_render();
@@ -343,8 +343,7 @@ function savedGames() {
       info.append(saved_del)
       saved_del.addEventListener('click', () => {
          localStorage.removeItem(key_name)
-         if (localStorage.length === 0)
-            document.querySelector(".saved_block").remove();
+         document.querySelector(".saved_block").remove();
          if (localStorage.length === 0) {
             massive = [];
             menu_buttons()

@@ -8,6 +8,7 @@ body{
    height: 100%;
    width: 100%;
    background-color: rgb(208, 243, 225);
+   padding-TOP: 90px;
 }
 .game{
    display: flex;
@@ -15,6 +16,7 @@ body{
    box-sizing: border-box;
    width: 400px;
    height: 500px;
+   position: relative;
 }
 .gamebox {
    position: relative;
@@ -105,6 +107,7 @@ body{
    width: 400px;
    height: 500px;
    justify-content:flex-start;
+   border-radius: 10px;
 }
 .saved_icon_left, .saved_icon_right, .saved_exit_icon{
    outline: none;
@@ -222,6 +225,7 @@ body{
    background-color: rgb(160, 125, 255);
    box-sizing: border-box;
    padding-left: 20px;
+   border-radius: 10px;
 }
 .controller {
    width: 400px;

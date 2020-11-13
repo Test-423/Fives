@@ -15,6 +15,7 @@ body {
   height: 100%;
   width: 100%;
   background-color: #d0f3e1;
+  padding-TOP: 90px;
 }
 
 .game {
@@ -29,6 +30,7 @@ body {
           box-sizing: border-box;
   width: 400px;
   height: 500px;
+  position: relative;
 }
 
 .gamebox {
@@ -181,6 +183,7 @@ body {
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: flex-start;
+  border-radius: 10px;
 }
 
 .saved_icon_left, .saved_icon_right, .saved_exit_icon {
@@ -384,6 +387,7 @@ body {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   padding-left: 20px;
+  border-radius: 10px;
 }
 
 .controller {
