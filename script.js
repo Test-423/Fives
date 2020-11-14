@@ -109,12 +109,13 @@ function menu_buttons() {
       }
    }
 }
-const field = document.querySelector(".field");
+//const field = document.querySelector(".field");
 const cellSize = 100;
 const empty = {
    value: 0,
    top: 0,
-   left: 0
+   left: 0,
+   size: 0
 };
 
 const cells = [];
@@ -185,6 +186,7 @@ function dragability() {
    }
 }
 function filling() {
+   console.log(document.querySelector(".field").offsetWidth)
    let empty_cell = document.createElement("div");
    empty_cell.className = "empty";
    empty_cell.style.left = `${empty.left * cellSize}px`
@@ -211,7 +213,7 @@ function filling() {
 
       empty.left = 0;
       empty.top = 0;
-      field.append(cell);
+      document.querySelector(".field").append(cell);
       cell.addEventListener('click', () => {
          move(i);
       });
@@ -432,7 +434,7 @@ function saved_filling(key) {
       cell.style.left = `${cells[i].left * cellSize}px `;
       cell.style.top = `${cells[i].top * cellSize}px `;
       cells[i].element = cell;
-      field.append(cell);
+      document.querySelector(".field").append(cell);
       cell.addEventListener('click', () => {
          move(i);
       });
@@ -456,6 +458,7 @@ function saving_func() {
       localStorage.setItem(`Save ${localStorage.length + 1}`, JSON.stringify(save))
       document.querySelector(".saving").innerHTML = "Already saved )"
       setTimeout( ()=>{
+         if(document.querySelector(".saving"))
          document.querySelector(".saving").innerHTML = "Save Game ?"
       },2000);
    }
