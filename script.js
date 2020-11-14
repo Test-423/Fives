@@ -12,7 +12,8 @@ const timer = {
    milisec: 0
 }
 const clicks = {
-   count: 0
+   count: 0,
+   isWin: false
 }
 let drag_status;
 const dragOver = function (evt) {
@@ -98,12 +99,14 @@ function menu_buttons() {
       cont_box.innerHTML = "Continue";
       document.querySelector(".buttons_block").append(cont_box);
       document.querySelector(".continue").addEventListener("click", continue_button);
-      let saving = document.createElement("button")
-      saving.className = "saving"
-      saving.innerHTML = "Save Game ?"
-      saving.style.height = "70px"
-      document.querySelector(".buttons_block").append(saving);
-      document.querySelector(".saving").addEventListener("click", saving_func);
+      if (clicks.isWin === false) {
+         let saving = document.createElement("button")
+         saving.className = "saving"
+         saving.innerHTML = "Save Game ?"
+         saving.style.height = "70px"
+         document.querySelector(".buttons_block").append(saving);
+         document.querySelector(".saving").addEventListener("click", saving_func);
+      }
    }
 }
 const field = document.querySelector(".field");
@@ -145,7 +148,16 @@ function move(index) {
       return cell.value === cell.top * 4 + cell.left;
    })
 
-   if (isFinished) alert("You Won!");
+   if (isFinished) {
+      alert(`Ура ! Вы решили головоломку за ${timer.min}:${timer.sec} и ${clicks.count} шагов`);
+      [].forEach.call(document.querySelectorAll('.cell'), function (e) {
+         e.classList.add('unclickable');
+      });
+      clicks.isWin = !clicks.isWin;
+      document.querySelector('.pause').remove();
+      menu_render();
+   }
+
 }
 const numbers = [...Array(15).keys()]
 filling();
@@ -209,6 +221,7 @@ function filling() {
 timer_constructor();
 function restart_fun() {
    clicks.count = 0;
+   if (clicks.isWin === true) clicks.isWin = !clicks.isWin
    document.querySelector(".turning").innerHTML = `Turns: ${clicks.count}`;
    if (menu_stat.continue === false) {
       menu_stat.continue = true;
@@ -319,6 +332,10 @@ function savedGames() {
       let metrics = document.createElement("div")
       metrics.className = "card__metrics"
       info.append(metrics)
+      let name = document.createElement("span")
+      name.className = "info__name"
+      name.innerHTML = `${key_name}`
+      metrics.append(name)
       let turns = document.createElement("span")
       turns.className = "info__turns"
       turns.innerHTML = `Turns: ${key.turns}`
@@ -424,17 +441,24 @@ function saved_filling(key) {
 
 }
 function saving_func() {
-   let save = {
-      turns: clicks.count,
-      min: timer.min,
-      sec: timer.sec,
-      milisec: timer.milisec,
-      whole_cells: cells,
-      empty_cell: empty
+   if (localStorage.length === 10) {
+      alert("У вас уже имеется 10 сохранений. Освободите память для дальнейшей возможности сохранений")
+   } else {
+      console.log(localStorage.length)
+      let save = {
+         turns: clicks.count,
+         min: timer.min,
+         sec: timer.sec,
+         milisec: timer.milisec,
+         whole_cells: cells,
+         empty_cell: empty
+      }
+      localStorage.setItem(`Save ${localStorage.length + 1}`, JSON.stringify(save))
+      document.querySelector(".saving").innerHTML = "Already saved )"
+      setTimeout( ()=>{
+         document.querySelector(".saving").innerHTML = "Save Game ?"
+      },2000);
    }
-   localStorage.setItem(`Save ${localStorage.length + 1}`, JSON.stringify(save))
-   //console.log(localStorage.length)
-   document.querySelector(".saving").innerHTML = "Already saved )"
 
 }
 function pause_fun() {
@@ -457,6 +481,7 @@ function create_turning() {
 }
 function continue_button() {
    document.querySelector('.menu').remove();
+   if (clicks.isWin === true) clicks.isWin = !clicks.isWin
    cleate_pause();
    startTimer();
 }
