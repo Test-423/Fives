@@ -15,6 +15,10 @@ const clicks = {
    count: 0,
    isWin: false
 }
+const game = {
+   dimension: 0,
+   col: 0
+}
 let drag_status;
 const dragOver = function (evt) {
    evt.preventDefault();
@@ -110,18 +114,45 @@ function menu_buttons() {
    }
 }
 //const field = document.querySelector(".field");
-const cellSize = 100;
+
 const empty = {
    value: 0,
    top: 0,
    left: 0,
    size: 0
 };
-
 const cells = [];
 cells.push(empty);
-
+function gameDimension(n) {
+   game.col = n
+   if (n === 3) {
+      game.dimension = 8;
+   }
+   else if (n === 4) {
+      game.dimension = 15;
+   }
+   else if (n === 5) {
+      game.dimension = 24;
+   }
+   else if (n === 6) {
+      game.dimension = 35;
+   }
+   else if (n === 7) {
+      game.dimension = 48;
+   }
+   else if (n === 8) {
+      game.dimension = 63;
+   }
+   else {
+      game.dimension = 8
+   }
+   console.log(game.dimension)
+}
+gameDimension(5)
+let cellSize = document.querySelector(".field").offsetWidth / game.col;
+console.log(cellSize)
 function move(index) {
+   cellSize = document.querySelector(".field").offsetWidth / game.col;
    const cell = cells[index];
 
    const leftDif = Math.abs(empty.left - cell.left);
@@ -146,7 +177,7 @@ function move(index) {
    dragability()
    //console.log(empty)
    const isFinished = cells.every(cell => {
-      return cell.value === cell.top * 4 + cell.left;
+      return cell.value === cell.top * game.col + cell.left;
    })
 
    if (isFinished) {
@@ -160,7 +191,8 @@ function move(index) {
    }
 
 }
-const numbers = [...Array(15).keys()]
+//
+let numbers = [...Array(game.dimension).keys()]
 filling();
 [].forEach.call(document.querySelectorAll('.cell'), function (e) {
    e.classList.add('unclickable');
@@ -186,7 +218,6 @@ function dragability() {
    }
 }
 function filling() {
-   console.log(document.querySelector(".field").offsetWidth)
    let empty_cell = document.createElement("div");
    empty_cell.className = "empty";
    empty_cell.style.left = `${empty.left * cellSize}px`
@@ -194,13 +225,13 @@ function filling() {
    document.querySelector(".field").append(empty_cell);
    document.querySelector(".empty").addEventListener("dragover", dragOver);
    document.querySelector(".empty").addEventListener("drop", dragDrop);
-   for (let i = 1; i <= 15; i++) {
+   for (let i = 1; i <= game.dimension; i++) {
       const cell = document.createElement("div");
       const value = numbers[i - 1] + 1;
       cell.className = "cell";
       cell.innerHTML = value;
-      const left = i % 4;
-      const top = (i - left) / 4;
+      const left = i % game.col;
+      const top = (i - left) / game.col;
 
       cells[i] = ({
          value: value,
@@ -210,6 +241,8 @@ function filling() {
       });
       cell.style.left = `${left * cellSize}px `;
       cell.style.top = `${top * cellSize}px `;
+      cell.style.width = `${cellSize}px`
+      cell.style.height = `${cellSize}px`
 
       empty.left = 0;
       empty.top = 0;
@@ -247,7 +280,7 @@ function restart_fun() {
       top: 0,
       left: 0
    });
-   shuffle(numbers);
+   //shuffle(numbers);
    empty.top = 0;
    empty.left = 0;
    filling();
@@ -369,7 +402,8 @@ function savedGames() {
          } else
             savedGames()
       })
-      let width = 150 / 4;
+      let width = 150 / key.col;
+      console.log(key.col)
       for (let one of key.whole_cells) {
          if (one.value === 0) continue;
          let cell = document.createElement("div");
@@ -394,6 +428,8 @@ function showSlides(index) {
    slides[slide.index - 1].style.display = "flex"
 }
 function saved_filling(key) {
+   game.col = key.col;
+   game.dimension = key.dimension;
    menu_stat.continue = true;
    clicks.count = key.turns;
    timer.min = key.min;
@@ -414,25 +450,30 @@ function saved_filling(key) {
    empty.left = key.empty_cell.left;
    console.log(empty.left)
    empty.top = key.empty_cell.top;
+   let size = document.querySelector(".field").offsetWidth / key.col;
    let empty_cell = document.createElement("div");
    empty_cell.className = "empty";
-   empty_cell.style.left = `${empty.left * cellSize}px`
-   empty_cell.style.top = `${empty.top * cellSize}px`
+   empty_cell.style.left = `${empty.left * size}px`
+   empty_cell.style.top = `${empty.top * size}px`
+   empty_cell.style.width = `${size}px`
+   empty_cell.style.height = `${size}px`
    document.querySelector(".field").append(empty_cell);
    document.querySelector(".empty").addEventListener("dragover", dragOver);
    document.querySelector(".empty").addEventListener("drop", dragDrop);
-   for (let i = 0; i < 16; i++) {
+   for (let i = 0; i <= key.dimension; i++) {
       cells[i] = key.whole_cells[i]
    }
    console.log(cells)
-   for (let i = 1; i < 16; i++) {
+   for (let i = 1; i <= key.dimension; i++) {
       const cell = document.createElement("div");
       const value = cells[i].value;
       cell.className = "cell";
       cell.innerHTML = value;
 
-      cell.style.left = `${cells[i].left * cellSize}px `;
-      cell.style.top = `${cells[i].top * cellSize}px `;
+      cell.style.left = `${cells[i].left * size}px `;
+      cell.style.top = `${cells[i].top * size}px `;
+      cell.style.width = `${size}px`
+      cell.style.height = `${size}px`
       cells[i].element = cell;
       document.querySelector(".field").append(cell);
       cell.addEventListener('click', () => {
@@ -453,14 +494,16 @@ function saving_func() {
          sec: timer.sec,
          milisec: timer.milisec,
          whole_cells: cells,
-         empty_cell: empty
+         empty_cell: empty,
+         dimension: game.dimension,
+         col: game.col
       }
       localStorage.setItem(`Save ${localStorage.length + 1}`, JSON.stringify(save))
       document.querySelector(".saving").innerHTML = "Already saved )"
-      setTimeout( ()=>{
-         if(document.querySelector(".saving"))
-         document.querySelector(".saving").innerHTML = "Save Game ?"
-      },2000);
+      setTimeout(() => {
+         if (document.querySelector(".saving"))
+            document.querySelector(".saving").innerHTML = "Save Game ?"
+      }, 2000);
    }
 
 }
