@@ -1,16 +1,16 @@
 * {
    margin: 0;
 }
-body{
+body {
    display: flex;
    justify-content: center;
    align-items: center;
    height: 100%;
    width: 100%;
    background-color: rgb(208, 243, 225);
-   padding-TOP: 90px;
+   padding-top: 90px;
 }
-.game{
+.game {
    display: flex;
    flex-direction: column;
    box-sizing: border-box;
@@ -57,7 +57,7 @@ body{
    transition: all 0.4s;
    cursor: pointer;
 }
-.microcell{
+.microcell {
    display: flex;
    justify-content: center;
    align-items: center;
@@ -88,7 +88,7 @@ body{
       background-color: rgb(177, 255, 236);
    }
 }
-.buttons_block{
+.buttons_block {
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -97,17 +97,19 @@ body{
    height: 500px;
    justify-content: space-around;
 }
-.saved_block{
+.saved_block {
    display: flex;
    flex-direction: column;
    align-items: center;
    background-color: rgb(96, 79, 190);
    width: 400px;
    height: 500px;
-   justify-content:flex-start;
+   justify-content: flex-start;
    border-radius: 10px;
 }
-.saved_icon_left, .saved_icon_right, .saved_exit_icon{
+.saved_icon_left,
+.saved_icon_right,
+.saved_exit_icon {
    outline: none;
    box-sizing: border-box;
    width: 56px;
@@ -119,23 +121,23 @@ body{
    border-radius: 28px;
    border: 2px solid black;
    background-color: rgb(252, 201, 61);
-   transition: all .3s ;
+   transition: all 0.3s;
    font-size: 25px;
-   &:hover{
+   &:hover {
       background-color: rgb(250, 248, 133);
    }
 }
-.saved_del{
+.saved_del {
    font-size: 20px;
 }
-.saved_exit_icon{
-   transition: all .3s ;
-   &:hover{
+.saved_exit_icon {
+   transition: all 0.3s;
+   &:hover {
       background-color: rgb(250, 248, 133);
       transform: rotate(180deg);
    }
 }
-.saves_block{
+.saves_block {
    width: 300px;
    height: 300px;
    background-color: rgba(101, 243, 65, 0.836);
@@ -144,7 +146,7 @@ body{
    align-items: center;
    flex-direction: row;
 }
-.card{
+.card {
    width: 300px;
    height: 300px;
    background-color: rgb(96, 79, 190);
@@ -152,12 +154,12 @@ body{
    justify-content: center;
    align-items: center;
    flex-direction: row;
-   &__metrics{
+   &__metrics {
       display: flex;
       align-items: flex-start;
       flex-direction: column;
    }
-   &__info{
+   &__info {
       width: 150px;
       height: 150px;
       background-color: #fff;
@@ -168,13 +170,14 @@ body{
       font-size: 20px;
       border-radius: 40px;
    }
-   &__box{
+   &__box {
       width: 150px;
       height: 150px;
       background-color: rgb(16, 37, 13);
       position: relative;
    }
-   &__start , &__del{
+   &__start,
+   &__del {
       background-color: rgb(153, 248, 44);
       width: 80px;
       height: 26px;
@@ -186,24 +189,24 @@ body{
       align-items: center;
       box-sizing: border-box;
       margin-top: 10px;
-      transition: all .3s;
+      transition: all 0.3s;
       outline: none;
-      &:hover{
+      &:hover {
          background-color: rgb(205, 250, 154);
       }
    }
-   &__del{
+   &__del {
       background-color: rgb(230, 142, 59);
-      transition: all .3s;
-      &:hover{
+      transition: all 0.3s;
+      &:hover {
          background-color: rgb(243, 21, 21);
       }
    }
 }
-.card_hidden{
+.card_hidden {
    display: none;
 }
-.saves_control{
+.saves_control {
    width: 300px;
    height: 60px;
    background-color: rgba(65, 127, 243, 0.836);
@@ -214,7 +217,7 @@ body{
    box-sizing: border-box;
    border-radius: 30px;
 }
-.saved__exit{
+.saved__exit {
    width: 400px;
    height: 80px;
    display: flex;
